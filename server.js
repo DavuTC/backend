@@ -14,8 +14,8 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(helmet());
+app.use(morgan('dev')); // Logging middleware
 app.use(express.json());
-app.use(morgan('dev'));
 
 // Logging middleware
 app.use((req, res, next) => {
@@ -31,6 +31,11 @@ mongoose.connect(process.env.MONGODB_URI, {
 })
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error('MongoDB connection error:', err));
+
+// Kök dizin için yanıt
+app.get('/', (req, res) => {
+  res.send('API is running');
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
